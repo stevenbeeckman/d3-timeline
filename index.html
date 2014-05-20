@@ -109,6 +109,11 @@
             .attr("width", function(d){ return timescale(moment(d.go.endtime, "HH:mm:ss").toDate()) - timescale(moment(d.go.starttime, "HH:mm:ss").toDate());})
             .attr("height", barHeight - 1);
 
+      bar.append("rect")
+            .attr("x", function(d){ return timescale(moment(d.return.starttime, "HH:mm:ss").toDate());})
+            .attr("width", function(d){ return timescale(moment(d.return.endtime, "HH:mm:ss").toDate()) - timescale(moment(d.return.starttime, "HH:mm:ss").toDate());})
+            .attr("height", barHeight - 1);
+
       // add some text
       bar.append("text")
             .attr("x", function(d) { return -5;
