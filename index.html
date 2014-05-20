@@ -80,6 +80,11 @@
                           .domain([beginnings[0], endings[1]])
                           .range([0, width]);
 
+      // dimension the svg chart element
+      var chart = d3.select(".chart")
+            .attr("width", width)
+            .attr("height", barHeight * journeys.length);
+
     })
 
     function parseXML(xml){
