@@ -75,7 +75,10 @@
       console.log(beginnings[0]);
       console.log(endings[1]);
 
-
+      // timescale converts a Date object into a pixel position
+      var timescale = d3.time.scale()
+                          .domain([beginnings[0], endings[1]])
+                          .range([0, width]);
 
     })
 
