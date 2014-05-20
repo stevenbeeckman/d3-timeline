@@ -95,7 +95,7 @@
       // dimension the svg chart element
       var chart = d3.select(".chart")
             .attr("width", width)
-            .attr("height", barHeight * journeys.length);
+            .attr("height", barHeight * (journeys.length + 1));
 
       // add some svg magic: 
       var bar = chart.selectAll("g")
@@ -120,7 +120,7 @@
 
       // draw time axis
       var xaxis_el = chart.append("g")
-                            .attr("transform", "translate(0," + 17 + ")")
+                            .attr("transform", "translate(100," + 17 + ")")
                             .attr("class", "axis")
                             .call(xaxis);
 
