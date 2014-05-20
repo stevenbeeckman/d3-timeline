@@ -43,8 +43,7 @@
       .date-label {
         font: 10px sans-serif;
         fill: black;
-        text-anchor: end;
-        padding-right: 20px;
+        text-anchor: begin;
       }
 
       .tick text {
@@ -73,18 +72,18 @@
 
     d3.xml("home-work-journey-timings.xml", function(xml){
       var journeys = parseXML(xml); // convert to JSON
-      console.dir(journeys);
+      // console.dir(journeys);
       journeys.sort(function(a,b){ return d3.descending(new Date(a.date), new Date(b.date));});
-      console.dir(journeys); //should be according to descending journey.date elements
+      // console.dir(journeys); //should be according to descending journey.date elements
 
       var beginnings = d3.extent(journeys, function(d){ return moment(d.go.starttime, "HH:mm:ss").toDate();});
       var endings = d3.extent(journeys, function(d){ return moment(d.return.endtime, "HH:mm:ss").toDate();});
-      console.log(beginnings[0]);
-      console.log(endings[1]);
+      // console.log(beginnings[0]);
+      // console.log(endings[1]);
 
       // timescale converts a Date object into a pixel position
       var timescale = d3.time.scale()
-                          .domain([beginnings[0], endings[1]])
+                          .domain([moment("07:00:00", "HH:mm:ss").toDate(), endings[1]])
                           .range([0, width]);
 
       // add time axis
@@ -101,12 +100,21 @@
       var bar = chart.selectAll("g")
             .data(journeys)
             .enter().append("g")
-            .attr("transform", function(d, i) {  return "translate(100," + (20.0 + (i * barHeight)) + ")"; }); // keep 20 pixels space for drawing the axis later on
+            .attr("transform", function(d, i) {  return "translate(0," + (20.0 + (i * barHeight)) + ")"; }); // keep 20 pixels space for drawing the axis later on
 
       // draw the rectangles
       bar.append("rect")
             .attr("x", function(d){ return timescale(moment(d.go.starttime, "HH:mm:ss").toDate());})
-            .attr("width", function(d){ return timescale(moment(d.go.endtime, "HH:mm:ss").toDate()) - timescale(moment(d.go.starttime, "HH:mm:ss").toDate());})
+            .attr("width", function(d){ 
+              var x = timescale(moment(d.go.starttime, "HH:mm:ss").toDate());
+              var w = timescale(moment(d.go.endtime, "HH:mm:ss").toDate()) - timescale(moment(d.go.starttime, "HH:mm:ss").toDate());
+              return w;
+              if(x + w < width){
+                return w;
+              }else{
+                return width - x - 5;
+              }
+            })
             .attr("height", barHeight - 1);
 
       bar.append("rect")
@@ -116,7 +124,7 @@
 
       // add some text
       bar.append("text")
-            .attr("x", function(d) { return -5;
+            .attr("x", function(d) { return 5;
                                     })
             .attr("y", barHeight / 2)
             .attr("dy", ".35em")
@@ -125,7 +133,7 @@
 
       // draw time axis
       var xaxis_el = chart.append("g")
-                            .attr("transform", "translate(100," + 17 + ")")
+                            .attr("transform", "translate(0," + 17 + ")")
                             .attr("class", "axis")
                             .call(xaxis);
 
