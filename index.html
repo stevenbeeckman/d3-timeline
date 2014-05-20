@@ -91,6 +91,12 @@
             .enter().append("g")
             .attr("transform", function(d, i) {  return "translate(0," + (20.0 + (i * barHeight)) + ")"; }); // keep 20 pixels space for drawing the axis later on
 
+      // draw the rectangles
+      bar.append("rect")
+            .attr("x", function(d){ return timescale(new Date(d.go.starttime));})
+            .attr("width", function(d){ return timescale(new Date(d.go.endtime)) - timescale(new Date(d.go.starttime));})
+            .attr("height", barHeight - 1);
+
     })
 
     function parseXML(xml){
