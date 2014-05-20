@@ -58,10 +58,21 @@
     </svg>
     <script type="text/javascript" src="d3.v3.min.js"></script>
     <script type="text/javascript" src="moment.min.js"></script>
+    <script src="jquery-1.8.1.min.js" type="text/javascript" language="javascript"></script>
+    <script type="text/javascript" src="jquery.xml2json.js"></script>
     <script type="text/javascript">
+    var width = document.getElementsByTagName("body")[0].clientWidth;
+    var barHeight = 17;
+
     d3.xml("home-work-journey-timings.xml", function(xml){
-      console.dir(xml);
+      var journeys = parseXML(xml);
+      console.dir(journeys);
     })
+
+    function parseXML(xml){
+      var a = $.xml2json(xml); //expecting an XML file with multiple journeys. Only 1 journey element will throw an error.
+      return a.journey;
+    }
     </script>
   </body>
 </html>
