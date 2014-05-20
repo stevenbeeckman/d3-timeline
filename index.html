@@ -67,6 +67,8 @@
     d3.xml("home-work-journey-timings.xml", function(xml){
       var journeys = parseXML(xml);
       console.dir(journeys);
+      journeys.sort(function(a,b){ return d3.descending(new Date(a.date), new Date(b.date));});
+      console.dir(journeys);
     })
 
     function parseXML(xml){
