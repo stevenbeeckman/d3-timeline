@@ -85,6 +85,12 @@
             .attr("width", width)
             .attr("height", barHeight * journeys.length);
 
+      // add some svg magic: 
+      var bar = chart.selectAll("g")
+            .data(journeys)
+            .enter().append("g")
+            .attr("transform", function(d, i) {  return "translate(0," + (20.0 + (i * barHeight)) + ")"; }); // keep 20 pixels space for drawing the axis later on
+
     })
 
     function parseXML(xml){
