@@ -65,10 +65,18 @@
     var barHeight = 17;
 
     d3.xml("home-work-journey-timings.xml", function(xml){
-      var journeys = parseXML(xml);
+      var journeys = parseXML(xml); // convert to JSON
       console.dir(journeys);
       journeys.sort(function(a,b){ return d3.descending(new Date(a.date), new Date(b.date));});
-      console.dir(journeys);
+      console.dir(journeys); //should be according to descending journey.date elements
+
+      var beginnings = d3.extent(journeys, function(d){ return new Date(d.go.starttime);});
+      var endings = d3.extent(journeys, function(d){ return new Date(d.return.endtime);});
+      console.log(beginnings[0]);
+      console.log(endings[1]);
+
+
+
     })
 
     function parseXML(xml){
